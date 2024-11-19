@@ -7,9 +7,11 @@ nombre varchar (255)
 );
 
 create table if not exists ahorcado(
-idUsuario int primary key auto_increment,
+idPartida int primary key auto_increment,
 intentos int
 );
+
+drop table ahorcado;
 
 create table if not exists historial (
 idUsuario int,
