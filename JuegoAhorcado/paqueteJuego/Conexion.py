@@ -7,6 +7,7 @@ class Conexion:
         self.passwd = passwd
         self.database = database
         self.port = port
+        self.users = []
 
     def conectar(self):
         try:
@@ -27,6 +28,21 @@ class Conexion:
             self.conexion.close()
             print("\n Conexión cerrada")
 
+
+    def buscarUsuario(self):
+        try:
+            if self.conexion.is_connected():
+                cursor = self.conexion.cursor()
+                cursor.execute("SELECT nombre FROM usuarios")
+                usuarios_db = cursor.fetchall()
+
+                # Guardar resultados como una lista de cadenas
+                self.users = [usuario[0] for usuario in usuarios_db]
+                cursor.close()
+            else:
+                print("\n La conexión no está activa.")
+        except mysql.connector.Error as err:
+            print(f"\n Error al buscar usuarios: {err}")
 
 # Conexion a la base de datos:
 
