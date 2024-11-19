@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/JuegoAhorcado.iml" filepath="$PROJECT_DIR$/JuegoAhorcado.iml" />
+      <module fileurl="file://$PROJECT_DIR$/inter2/inter2.iml" filepath="$PROJECT_DIR$/inter2/inter2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/untitled/untitled.iml" filepath="$PROJECT_DIR$/untitled/untitled.iml" />
     </modules>
   </component>
 </project>
