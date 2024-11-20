@@ -18,6 +18,8 @@ palabra varchar (255),
 tipo varchar (255)
 );
 
+select * from tematicas;
+
 INSERT INTO tematicas (palabra, tipo) VALUES 
 ('carla', 'Personas'),
 ('alberto', 'Personas'),
