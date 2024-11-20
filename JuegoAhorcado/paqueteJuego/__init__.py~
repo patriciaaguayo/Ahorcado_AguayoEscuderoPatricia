@@ -32,6 +32,11 @@ class Ahorcado:
         self.root.title("Juego del Ahorcado")
         self.root.withdraw()  # Ocultar la ventana principal al inicio
 
+        def salir(self):
+            """Cierra ambas ventanas y termina el programa."""
+        self.ventana_inicial.destroy()  # Cierra la ventana inicial
+        self.root.destroy()  # Cierra la ventana del juego
+
         # Widgets de la ventana del juego
         self.label_nombre = tk.Label(self.root, text="Introduce tu nombre:")
         self.label_nombre.pack()
