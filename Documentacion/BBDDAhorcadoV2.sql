@@ -31,8 +31,8 @@ INSERT INTO tematicas (palabra, tipo) VALUES
 ('manzana', 'Frutas'),
 ('uva', 'Frutas'),
 ('platano', 'Frutas'),
-('pantalla', 'Informatico'),
-('intezfaz', 'Informatico'),
-('metodo', 'Informatico'),
-('variable', 'Informatico'),
-('clase', 'Informatico');
+('pantalla', 'Conceptos_Informaticos'),
+('intezfaz', 'Conceptos_Informaticos'),
+('metodo', 'Conceptos_Informaticos'),
+('variable', 'Conceptos_Informaticos'),
+('clase', 'Conceptos_Informaticos');
