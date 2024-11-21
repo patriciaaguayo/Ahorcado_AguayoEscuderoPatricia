@@ -18,8 +18,14 @@ def ver_base_datos():
         print(fila)
 
     # Mostrar datos de la tabla 'tematicas'
-    print("\nContenido de la tabla 'tematicas':")
-    cursor.execute("SELECT * FROM tematicas;")
+    print("\nContenido de la tabla 'palabras':")
+    cursor.execute("SELECT * FROM palabras;")
+    for fila in cursor.fetchall():
+        print(fila)
+
+    # Mostrar datos de la tabla 'tematicas'
+    print("\nContenido de la tabla 'partidas':")
+    cursor.execute("SELECT * FROM partidas;")
     for fila in cursor.fetchall():
         print(fila)
 

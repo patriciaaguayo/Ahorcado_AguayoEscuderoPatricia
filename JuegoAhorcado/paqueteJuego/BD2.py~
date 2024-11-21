@@ -51,6 +51,16 @@ def crear_base_datos():
         VALUES (?, ?);
     """, datos_tematicas)
 
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS partidas (
+        idPartida INTEGER PRIMARY KEY AUTOINCREMENT,
+        idUsuario INTEGER NOT NULL,
+        idPalabra INTEGER NOT NULL,
+        FOREIGN KEY (idUsuario) REFERENCES usuarios (idUsuario),
+        FOREIGN KEY (idPalabra) REFERENCES tematicas (idPalabra)
+    );
+""")
+
     conexion.commit()
     conexion.close()
     print("Base de datos creada exitosamente.")
@@ -110,6 +120,29 @@ def cargar_palabras(tema):
     conn.close()
     return palabras
 
+def obtener_id_usuario(nombre):
+    conn = conectar_bd()
+    cursor = conn.cursor()
+    cursor.execute("SELECT idUsuario FROM usuarios WHERE nombre = ?", (nombre,))
+    id_usuario = cursor.fetchone()
+    conn.close()
+    return id_usuario[0] if id_usuario else None
+
+def obtener_id_palabra(palabra):
+    conn = conectar_bd()
+    cursor = conn.cursor()
+    cursor.execute("SELECT idPalabra FROM tematicas WHERE palabra = ?", (palabra,))
+    id_palabra = cursor.fetchone()
+    conn.close()
+    return id_palabra[0] if id_palabra else None
+
+def insertar_partida(id_usuario, id_palabra):
+    conn = conectar_bd()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO partidas (idUsuario, idPalabra) VALUES (?, ?)", (id_usuario, id_palabra))
+    conn.commit()
+    conn.close()
+
 # Lógica del juego
 def jugar():
     global nombre, usuario_id, ganadas, perdidas, palabra, palabra_guiones, letras_incorrectas, intentos_restantes
@@ -133,6 +166,10 @@ def jugar():
         return
 
     palabra = random.choice(palabras)
+
+    palabra_id = obtener_id_palabra(palabra)
+    insertar_partida(usuario_id, palabra_id)
+
     palabra_guiones = ["_"] * len(palabra)
     letras_incorrectas = set()
     intentos_restantes = 6

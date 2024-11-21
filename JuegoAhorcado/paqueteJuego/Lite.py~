@@ -237,7 +237,7 @@ imagenes = [
 Titulo = tk.Label(juego, text="AHORCADO", font=("Courier New", 28), bg="#90d5fe")
 Titulo.place(x=540, y=50)
 
-palabraSecreta = tk.Label(juego, text="", font=("Courier", 24), bg="#90d5fe")
+palabraSecreta = tk.Label(juego, text="", font=("Courier", 24), bg="white")
 palabraSecreta.place(x=520, y=200)
 
 Unombre = tk.Label(juego, text="Introduce tu nombre:", font=("Courier", 16), bg="#90d5fe")

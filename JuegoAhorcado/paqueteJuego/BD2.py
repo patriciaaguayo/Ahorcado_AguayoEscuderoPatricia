@@ -20,7 +20,7 @@ def crear_base_datos():
 
     # Crear tabla tematicas
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS tematicas (
+    CREATE TABLE IF NOT EXISTS palabras (
         idPalabra INTEGER PRIMARY KEY AUTOINCREMENT,
         palabra TEXT NOT NULL UNIQUE,
         tipo TEXT NOT NULL
@@ -47,9 +47,19 @@ def crear_base_datos():
     ]
 
     cursor.executemany("""
-        INSERT OR IGNORE INTO tematicas (palabra, tipo)
+        INSERT OR IGNORE INTO palabras (palabra, tipo)
         VALUES (?, ?);
     """, datos_tematicas)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS partidas (
+        idPartida INTEGER PRIMARY KEY AUTOINCREMENT,
+        idUsuario INTEGER NOT NULL,
+        idPalabra INTEGER NOT NULL,
+        FOREIGN KEY (idUsuario) REFERENCES usuarios (idUsuario),
+        FOREIGN KEY (idPalabra) REFERENCES palabras (idPalabra)
+    );
+""")
 
     conexion.commit()
     conexion.close()
@@ -105,10 +115,33 @@ def obtener_historial(usuario_id):
 def cargar_palabras(tema):
     conn = conectar_bd()
     cursor = conn.cursor()
-    cursor.execute("SELECT palabra FROM tematicas WHERE tipo = ?", (tema,))
+    cursor.execute("SELECT palabra FROM palabras WHERE tipo = ?", (tema,))
     palabras = [fila[0] for fila in cursor.fetchall()]
     conn.close()
     return palabras
+
+def obtener_id_usuario(nombre):
+    conn = conectar_bd()
+    cursor = conn.cursor()
+    cursor.execute("SELECT idUsuario FROM usuarios WHERE nombre = ?", (nombre,))
+    id_usuario = cursor.fetchone()
+    conn.close()
+    return id_usuario[0] if id_usuario else None
+
+def obtener_id_palabra(palabra):
+    conn = conectar_bd()
+    cursor = conn.cursor()
+    cursor.execute("SELECT idPalabra FROM palabras WHERE palabra = ?", (palabra,))
+    id_palabra = cursor.fetchone()
+    conn.close()
+    return id_palabra[0] if id_palabra else None
+
+def insertar_partida(id_usuario, id_palabra):
+    conn = conectar_bd()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO partidas (idUsuario, idPalabra) VALUES (?, ?)", (id_usuario, id_palabra))
+    conn.commit()
+    conn.close()
 
 # Lógica del juego
 def jugar():
@@ -133,6 +166,10 @@ def jugar():
         return
 
     palabra = random.choice(palabras)
+
+    palabra_id = obtener_id_palabra(palabra)
+    insertar_partida(usuario_id, palabra_id)
+
     palabra_guiones = ["_"] * len(palabra)
     letras_incorrectas = set()
     intentos_restantes = 6
