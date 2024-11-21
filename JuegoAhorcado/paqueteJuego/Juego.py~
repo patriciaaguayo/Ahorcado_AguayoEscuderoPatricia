@@ -260,6 +260,7 @@ juego = tk.Tk()
 juego.title("Juego de Ahorcado")
 juego.geometry("1200x800")
 juego.configure(bg="#90d5fe")
+# hacer la interfaz que no se puede cambiar tamaño
 juego.resizable(False, False)
 
 imagenes = [
