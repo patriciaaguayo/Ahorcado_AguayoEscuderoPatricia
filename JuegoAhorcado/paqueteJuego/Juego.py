@@ -30,7 +30,7 @@ def crear_base_datos():
     );
 """)
 
-    # Insertar datos en la tabla tematicas
+    # Insertar datos en la tabla palabras
 
     datos_tematicas = [
         ('carla', 'Personas'),
@@ -70,6 +70,7 @@ def crear_base_datos():
     print("Base de datos creada exitosamente.")
 
 # Variables globales
+
 palabra = ""
 palabra_guiones = []
 letras_incorrectas = set()
@@ -151,6 +152,7 @@ def insertar_partida(id_usuario, id_palabra):
 # Lógica del juego
 
 def jugar():
+
     global nombre, usuario_id, ganadas, perdidas, palabra, palabra_guiones, letras_incorrectas, intentos_restantes
 
     nombre = entradaNombre.get().strip().lower()
@@ -183,6 +185,7 @@ def jugar():
     actualizar_pantalla()
 
 def actualizar_pantalla():
+
     palabraSecreta.config(text=" ".join(palabra_guiones))
     intentos.config(text=f"Intentos restantes: {intentos_restantes}")
     incorrectas.config(text="Letras incorrectas: ")
@@ -228,7 +231,6 @@ def adivinar_letra():
         palabraSecreta.config(text="")
         entradaLetra.delete(0, tk.END)
         entradaLetra.config(state=tk.DISABLED)
-        #reiniciar_juego()
         return
 
     if intentos_restantes == 0:
@@ -241,7 +243,6 @@ def adivinar_letra():
         palabraSecreta.config(text="")
         entradaLetra.delete(0, tk.END)
         entradaLetra.config(state=tk.DISABLED)
-        #reiniciar_juego()
 
 def reiniciar_juego():
     global palabra, palabra_guiones, letras_incorrectas, intentos_restantes

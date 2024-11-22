@@ -4,11 +4,13 @@ from tkinter import messagebox as mb
 import random
 
 # Función para crear la base de datos
+
 def crear_base_datos():
     conexion = sqlite3.connect("ahorcado.db")
     cursor = conexion.cursor()
 
     # Crear tabla usuarios
+
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS usuarios (
             idUsuario INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -19,6 +21,7 @@ def crear_base_datos():
     """)
 
     # Crear tabla tematicas
+
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS palabras (
         idPalabra INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,7 +30,8 @@ def crear_base_datos():
     );
 """)
 
-    # Insertar datos en la tabla tematicas
+    # Insertar datos en la tabla palabras
+
     datos_tematicas = [
         ('carla', 'Personas'),
         ('alberto', 'Personas'),
@@ -66,6 +70,7 @@ def crear_base_datos():
     print("Base de datos creada exitosamente.")
 
 # Variables globales
+
 palabra = ""
 palabra_guiones = []
 letras_incorrectas = set()
@@ -76,6 +81,7 @@ perdidas = 0
 nombre = ""
 
 # Conexión a la base de datos
+
 def conectar_bd():
     return sqlite3.connect("ahorcado.db")
 
@@ -144,12 +150,13 @@ def insertar_partida(id_usuario, id_palabra):
     conn.close()
 
 # Lógica del juego
+
 def jugar():
     global nombre, usuario_id, ganadas, perdidas, palabra, palabra_guiones, letras_incorrectas, intentos_restantes
 
     nombre = entradaNombre.get().strip().lower()
     if not nombre:
-        mb.showwarning("Advertencia", "Por favor, introduce tu nombre antes de comenzar.")
+        mb.showwarning("Advertencia", "Introduce tu nombre antes de comenzar.")
         return
 
     usuario = obtener_usuario(nombre)
@@ -189,7 +196,7 @@ def adivinar_letra():
 
     letra = entradaLetra.get().lower()
     if len(letra) != 1 or not letra.isalpha():
-        mb.showwarning("Advertencia", "Por favor, introduce solo una letra válida.")
+        mb.showwarning("Advertencia", "Introduce solo una letra válida.")
         return
 
     if letra in letras_incorrectas or letra in palabra_guiones:
@@ -199,10 +206,12 @@ def adivinar_letra():
     entradaLetra.delete(0, tk.END)
 
     if letra in palabra:
+
         for i, l in enumerate(palabra):
             if l == letra:
                 palabra_guiones[i] = letra
         palabraSecreta.config(text=" ".join(palabra_guiones))
+
     else:
         letras_incorrectas.add(letra)
         intentos_restantes -= 1
@@ -220,7 +229,6 @@ def adivinar_letra():
         palabraSecreta.config(text="")
         entradaLetra.delete(0, tk.END)
         entradaLetra.config(state=tk.DISABLED)
-        #reiniciar_juego()
         return
 
     if intentos_restantes == 0:
@@ -233,7 +241,6 @@ def adivinar_letra():
         palabraSecreta.config(text="")
         entradaLetra.delete(0, tk.END)
         entradaLetra.config(state=tk.DISABLED)
-        #reiniciar_juego()
 
 def reiniciar_juego():
     global palabra, palabra_guiones, letras_incorrectas, intentos_restantes
@@ -242,7 +249,8 @@ def reiniciar_juego():
     letras_incorrectas = set()
     intentos_restantes = 6
 
-    # Resetear campos en la interfaz gráfica
+    # Reiniciar campos en la interfaz gráfica
+
     palabraSecreta.config(text="")
     entradaLetra.delete(0, tk.END)
     entradaLetra.config(state=tk.DISABLED)
@@ -256,6 +264,7 @@ def reiniciar_juego():
     imagenLabel.config(image=imagenes[0])
 
 # Configuración de la interfaz gráfica
+
 juego = tk.Tk()
 juego.title("Juego de Ahorcado")
 juego.geometry("1200x800")
